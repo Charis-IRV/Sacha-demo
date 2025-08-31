@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Démo Portail Client – 10inr</title>
+
+  <!-- Google Fonts: Inter (proche de 10inr) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    /* === GLOBAL === */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f9fafb;
+      color: #111827;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* === HEADER === */
+ 
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #111827;
+    }
+
+    .logo span {
+      color: #3551db;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 24px;
+    }
+
+    nav a {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #6b7280;
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 4px;
+      transition: color 0.2s;
+    }
+
+    nav a:hover, nav a.active {
+      color: #3551db;
+    }
+
+    nav a.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background-color: #3551db;
+      border-radius: 3px;
+    }
+
+    /* === CARDS & LAYOUT === */
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .card2 {
+      max-width: 800px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #111827;
+    }
+
+    p {
+      color: #4b5563;
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+    }
+
+    /* === BUTTONS === */
+    .btn {
+      background-color: #3551db;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px #3551db;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #3551db;
+      color: #3551db;
+    }
+
+    /* === PROGRESS BAR === */
+    .progress-container {
+      width: 100%;
+      background: #e5e7eb;
+      border-radius: 999px;
+      height: 8px;
+      margin: 16px 0;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      width: 50%;
+      height: 100%;
+      background: #3551db;
+      border-radius: 999px;
+      transition: width 1.2s ease;
+    }
+
+    /* === STEPS (Timeline) === */
+    .steps {
+      display: flex;
+      justify-content: space-between;
+      margin: 24px 0;
+      position: relative;
+    }
+
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #e5e7eb;
+      z-index: 0;
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+      width: 18%;
+    }
+
+    .step-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: #6b7280;
+      margin-bottom: 8px;
+    }
+
+    .step.active .step-dot {
+      background: #3551db;
+      color: white;
+    }
+
+    .step.done .step-dot::after {
+      content: '✓';
+      color: white;
+      font-weight: bold;
+    }
+
+    .step-label {
+      font-size: 0.75rem;
+      color: #6b7280;
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    .step.active .step-label {
+      color: #3551db;
+      font-weight: 600;
+    }
+
+    /* === FILE LIST === */
+    .file-list {
+      list-style: none;
+    }
+
+    .file-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #f3f4f6;
+      font-size: 0.9rem;
+    }
+
+    .file-name {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #4b5563;
+    }
+
+    .file-link {
+      color: #3551db;
+      text-decoration: underline;
+      font-size: 0.85rem;
+    }
+
+    /* === CHAT === */
+    .chat-container {
+      height: 300px;
+      overflow-y: auto;
+      margin-bottom: 16px;
+      padding-right: 8px;
+    }
+
+    .chat-bubble {
+      max-width: 70%;
+      padding: 10px 14px;
+      border-radius: 18px;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+    }
+
+    .bubble-client {
+      background: #f1f3f5;
+      color: #111827;
+      margin-left: auto;
+      border-bottom-right-radius: 4px;
+    }
+
+    .bubble-team {
+      background: #3551db;
+      color: white;
+      margin-right: auto;
+      border-bottom-left-radius: 4px;
+    }
+
+    .chat-footer {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 12px;
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+
+    .chat-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .chat-actions button {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: #f9fafb;
+      border: 1px solid #d1d5db;
+      cursor: pointer;
+    }
+
+    .chat-actions button:last-child {
+      background: #3551db;
+      color: white;
+      border: none;
+    }
+
+    /* === CHECKLIST === */
+    .checklist {
+      list-style: none;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      font-size: 0.95rem;
+    }
+
+    .check-box {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #d1d5db;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      transition: all 0.2s;
+    }
+
+    .check-item.done .check-box {
+      background: #3551db;
+      border-color: #3551db;
+      color: white;
+    }
+
+    /* === PAYMENTS TABLE === */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    th {
+      text-align: left;
+      padding: 12px;
+      color: #6b7280;
+      font-weight: 500;
+    }
+
+    td {
+      padding: 12px;
+      border-top: 1px solid #f3f4f6;
+    }
+
+    .status {
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .status.paid {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status.pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status.upcoming {
+      background: #f0fdf4;
+      color: #065f46;
+    }
+
+    .action-link {
+      color: #3551db;
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    /* === TABS === */
+    .tabs {
+      display: none;
+    }
+
+    .tabs.active {
+      display: block;
+    }
+
+    /* === FOOTER COPY === */
+    .demo-footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #6b7280;
+      font-size: 0.9rem;
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav ul {
+        overflow-x: auto;
+        width: 100%;
+        padding: 10px 0;
+        white-space: nowrap;
+      }
+
+      .chat-bubble {
+        max-width: 85%;
+      }
+
+      .step {
+        width: 20%;
+      }
+
+      .steps {
+        overflow-x: auto;
+        padding-bottom: 10px;
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+
+<header class="bg-white shadow-sm border-b border-gray-100">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex h-16 justify-between items-center">
+
+      <!-- Logo -->
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center" style="background-color: #3551db;">
+          <span class="text-white font-bold text-sm">10</span>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold text-gray-900">10inr</h1>
+          <p class="text-xs text-gray-500">Votre espace client</p>
+        </div>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex space-x-8" id="nav-menu">
+        <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium  active" data-tab="accueil">
+          <i data-lucide="home" class="w-4 h-4"></i><span>Accueil</span>
+        </a>
+        <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50" data-tab="projet">
+          <i data-lucide="folder-open" class="w-4 h-4"></i><span>Mon projet</span>
+        </a>
+        <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50" data-tab="fichiers">
+            <i data-lucide="upload" class="w-4 h-4"></i><span>Fichiers</span>
+        </a>
+        <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50" data-tab="chat">
+          <i data-lucide="message-square" class="w-4 h-4"></i><span>Chat</span>
+        </a>
+        <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50" data-tab="paiements">
+          <i data-lucide="credit-card" class="w-4 h-4"></i><span>Factures</span>
+        </a>
+        <a href="#" class="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50" data-tab="contact">
+          <i data-lucide="mail" class="w-4 h-4"></i><span>Contact Agence</span>
+        </a>
+      </nav>
+
+      <!-- User Menu -->
+      <div class="flex items-center space-x-4">
+        <!-- Desktop user -->
+        <div class="hidden md:flex items-center space-x-3">
+          <div class="text-right">
+            <p class="text-sm font-medium text-gray-900">Mark Dupont</p>
+            <p class="text-xs text-gray-500">Client Premium</p>
+          </div>
+          <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white" style="background-color: #3551db;">
+            <i data-lucide="user" class="w-4 h-4"></i>
+          </div>
+        </div>
+
+        <!-- Mobile menu button -->
+        <button id="mobile-menu-toggle" class="md:hidden p-2 rounded-md hover:bg-gray-100">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation -->
+  <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100">
+    <div class="px-4 py-3 space-y-1">
+      <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium bg-orange-50 text-blue-600">
+        <i data-lucide="home" class="w-4 h-4"></i><span>Accueil</span>
+      </a>
+      <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50">
+        <i data-lucide="folder-open" class="w-4 h-4"></i><span>Mon projet</span>
+      </a>
+      <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50">
+        <i data-lucide="upload" class="w-4 h-4"></i><span>Fichiers</span>
+      </a>
+      <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50">
+        <i data-lucide="message-square" class="w-4 h-4"></i><span>Commentaires</span>
+      </a>
+      <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50">
+        <i data-lucide="mail" class="w-4 h-4"></i><span>Contact Agence</span>
+      </a>
+
+      <!-- Mobile user info -->
+      <div class="flex items-center space-x-3 px-3 py-2 mt-4 pt-4 border-t border-gray-100">
+        <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white">
+          <i data-lucide="user" class="w-4 h-4"></i>
+        </div>
+        <div>
+          <p class="text-sm font-medium text-gray-900">Mark Dupont</p>
+          <p class="text-xs text-gray-500">Client Premium</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+  <div class="container">
+    <!-- ACCUEIL -->
+    <div id="accueil" class="tabs active">
+      <div class="space-y-8">
+        <div class="nova-card p-8 bg-white rounded-2xl shadow" style="background-color: #3551dbc0;">
+          <div class="flex items-center justify-between">
+            <div>
+              <h1 class="text-3xl font-bold text-gray-800 mb-2" style="color: white;">
+                Bienvenue dans votre espace Client 10inr
+              </h1>
+              <p class="text-lg text-gray-500 max-w-2xl" style="color: rgba(255, 255, 255, 0.534);">
+                Votre projet est entre de bonnes mains
+                Avancez étape par étape, sans stress. Toutes vos ressources, en un seul endroit.
+              </p>
+            </div>
+            <div class="hidden md:block">
+              <div class="text-right">
+                <p class="text-sm text-gray-400" style="color: white;">Dernière connexion</p>
+                <p class="text-sm font-medium" style="color: rgba(255, 255, 255, 0.658);">Aujourd'hui à 14:30</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-1 gap-8">
+          <!-- Project Status Card -->
+          <div class="nova-card bg-white rounded-2xl shadow p-6">
+            <div class="pb-3 flex items-center justify-between">
+              <span class="flex items-center space-x-2">
+                <i data-lucide="folder-open" class="w-5 h-5 text-blue-600"></i>
+                <span>Votre Projet</span>
+              </span>
+              <span class="px-3 py-1 rounded-full text-xs font-medium" style="background-color: #8b52fe00; color: #3551db;">
+                En cours
+              </span>
+            </div>
+
+            <div class="space-y-4">
+              <div>
+                <h3 class="font-semibold text-lg mb-2">Modélisation 3D en cours</h3>
+                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                  <div class="flex items-center space-x-1">
+                    <span>Suivez votre projet immobilier en toute simplicité</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-medium">Avancement global</span>
+                  <span class="text-sm font-bold text-blue-600">65%</span>
+                </div>
+                <!-- Progress Bar -->
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                  <div class="progress-bar" style="width: 65%"></div>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between pt-2">
+                <p class="text-sm text-gray-500">
+                  Gestionnaire : Sophie – @10inr
+                </p>
+                <a href="#" data-tab="projet" class="inline-flex items-center px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-sm font-medium shadow">
+                  <i data-lucide="eye" class="w-4 h-4 mr-2"></i> Voir mon projet
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Stats 
+          <div class="nova-card bg-white rounded-2xl shadow p-6">
+            <div class="pb-3 flex items-center space-x-2">
+              <i data-lucide="bar-chart-3" class="w-5 h-5 text-blue-600"></i>
+              <span>Progression</span>
+            </div>
+            <div class="grid grid-cols-3 gap-4">
+              <div class="text-center p-4 bg-green-50 rounded-lg">
+                <div class="text-2xl font-bold text-green-600">4</div>
+                <div class="text-sm text-green-600">Rendus livrés</div>
+              </div>
+              <div class="text-center p-4 bg-yellow-50 rounded-lg" style="background-color: #3551db59;">
+                <div class="text-2xl font-bold" style="color: #3551db;">12</div>
+                <div class="text-sm" style="color: #3551db;">Jours d'avance</div>
+              </div>
+              <div class="text-center p-4 bg-gray-50 rounded-lg">
+                <div class="text-2xl font-bold text-gray-600">100%</div>
+                <div class="text-sm text-gray-600">Satisfaction client</div>
+              </div>
+            </div>
+          </div>  -->
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <!-- Next Steps -->
+          <div class="nova-card bg-white rounded-2xl shadow p-6">
+            <div class="pb-3 flex items-center space-x-2">
+              <i data-lucide="flag" class="w-5 h-5 text-blue-600"></i>
+              <span>Détails du projet</span>
+            </div>
+            <div class="space-y-4">
+              <div class="p-4 rounded-lg border" style="background-color: #3551db59;">
+                <p class="text-sm mb-3" style="display: flex; justify-content: space-between;">
+                  <span> Type de bien : </span> <span style=" color: #000000; font-weight: bold;">Résidentiel</span>
+                </p>
+                <p class="text-sm mb-3" style="display: flex; justify-content: space-between;">
+                  Logements : <span style="  color: #000000; font-weight: bold;">12 unités</span>
+                </p>
+                <p class="text-sm mb-3" style="display: flex; justify-content: space-between;">
+                  Surface totale : <span style=" color: #000000; font-weight: bold;">1,200 m²</span>
+                </p>
+                <p class="text-sm mb-3" style="display: flex; justify-content: space-between;">
+                  Échéance : <span style=" color: #000000; font-weight: bold;">15 Septembre 2025</span>
+                </p>
+                
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Activity -->
+          <div class="nova-card bg-white rounded-2xl shadow p-6">
+            <div class="pb-3 flex items-center space-x-2">
+              <i data-lucide="activity" class="w-5 h-5 text-blue-600"></i>
+              <span>Dernière activité</span>
+            </div>
+            <div class="space-y-3">
+              <div class="flex items-start space-x-3">
+                <div class="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+                <div>
+                  <p class="text-sm font-medium">Rendus V2 livrés</p>
+                  <p class="text-xs" style="color: #3551db;">Il y a 2 heures</p>
+                </div>
+              </div>
+              <div class="flex items-start space-x-3">
+                <div class="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+                <div>
+                  <p class="text-sm font-medium">Commentaire ajouté</p>
+                  <p class="text-xs" style="color: #3551db;">Hier</p>
+                </div>
+              </div>
+              <div class="flex items-start space-x-3">
+                <div class="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+                <div>
+                  <p class="text-sm font-medium">Paiement validé</p>
+                  <p class="text-xs" style="color: #3551db;">Il y a 3 jours</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Motivational message -->
+        <div class="nova-card p-6 text-center rounded-2xl shadow" style="background-color: #3551db59;">
+          <h3 class="text-lg font-semibold mb-2">Votre projet est entre de bonnes mains</h3>
+          <p class="text-gray-500">
+            Vos rendus 3D disponibles en un clic <i data-lucide="rocket" class="inline w-5 h-5 text-blue-600"></i>
+          </p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- MON PROJET -->
+    <div id="projet" class="tabs">
+      <div class="space-y-8">
+
+        <div class="nova-card p-8 bg-white rounded-2xl shadow">
+          <h1 class="text-3xl font-bold text-gray-800 mb-2 flex items-center space-x-2">
+            <span style="color: #3551db;">Suivi détaillé de votre projet</span>
+          </h1>
+          <p class="text-lg text-gray-500">
+            Nous attendons vos retours pour continuer 
+          </p>
+        </div>
+            
+        <div class="card">
+          <h2 class="flex items-center space-x-2">
+            <span class="w-5 h-5 text-purple-600"></span>
+            <h1 style="font-weight: bolder;">Timeline du projet</h1>
+          </h2>
+          <p>Suivi détaillé de votre projet</p>
+
+          <!-- Timeline Steps -->
+          <div class="steps">
+            <div class="step done">
+              <div class="step-dot"></div>
+              <div class="step-label">Devis signé </div>
+            </div>
+            <div class="step done">
+              <div class="step-dot"></div>
+              <div class="step-label">Onboarding</div>
+            </div>
+            <div class="step active">
+              <div class="step-dot">3</div>
+              <div class="step-label">Design </div>
+            </div>
+            <div class="step">
+              <div class="step-dot">4</div>
+              <div class="step-label">Livraison </div>
+            </div>
+            <div class="step ">
+              <div class="step-dot">5</div>
+              <div class="step-label"> Révision </div>
+            </div>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="progress-container">
+            <div class="progress-bar" style="width:65%"></div>
+          </div>
+
+          <p><strong>Client :</strong> Mark Dupont</p>
+          <p><strong>Deadline :</strong> 30 Septembre 2025</p>
+          <p><strong>Gestionnaire :</strong> Sacha – @10inr</p> <br>
+
+          <p>
+            Dans la section Fichiers tu y trouveras tout les fichiers envoyés par nous et vous aussi vous pourrez nous envoyer vos fichiers via cette section
+          </p>
+
+        </div>
+      </div>
+    </div>
+
+
+    <!-- CHAT -->
+    <div id="chat" class="tabs">
+      <div class="space-y-8">
+
+        <!-- Header -->
+        <div class="nova-card p-8 bg-white rounded-2xl shadow">
+          <h1 class="text-3xl font-bold text-gray-800 mb-2 flex items-center space-x-2" style="color: #3551db;">
+            Section Feedback & Validation
+          </h1>
+          <p class="text-lg text-gray-500">
+            Nous attendons vos retours pour continuer 
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+          <!-- Chat Section -->
+          <div class="lg:col-span-2">
+            <div class="nova-card bg-white rounded-2xl shadow">
+              <div class="p-6 border-b">
+                <div class="flex items-center space-x-2 mb-1">
+                  <span data-lucide="messages-square" class="w-5 h-5 text-purple-600"></span>
+                  <h2 class="font-semibold">Fil de discussion</h2>
+                </div>
+                <p class="text-sm text-gray-500">
+                  Échangez directement avec l'équipe 10inr
+                </p>
+              </div>
+
+              <div class="p-6 space-y-4 max-h-96 overflow-y-auto">
+
+                <!-- Message 1 -->
+                <div class="flex justify-start">
+                  <div class="flex items-start space-x-3">
+                    <div class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-medium" style="background-color: #3551db;">
+                      S
+                    </div>
+                    <div class="bg-gray-50 text-gray-900 rounded-lg p-3 max-w-md">
+                      <div class="text-xs font-medium text-gray-600 mb-1">Sacha - 10inr</div>
+                      <p class="text-sm ">Bonjour ! Nous avons livré la V2 de vos rendus 3D 
+                        avec les modifications demandées. Merci de nous faire un retour d'ici vendredi.
+                      </p>
+                      <div class="mt-2 space-y-1">
+
+                      </div>
+                      <div class="text-xs mt-2 text-gray-500">30 Août, 16:03</div>
+                    </div>
+                  </div>
+                </div>
+    
+                <!-- Message 2 -->
+                <div class="flex justify-end">
+                  <div class="flex items-start space-x-3 flex-row-reverse space-x-reverse">
+                    <div class="w-8 h-8 rounded-full bg-gray-400 text-white flex items-center justify-center font-medium" style="background-color: #3551db;">
+                      M
+                    </div>
+                    <div class="bg-blue-600 text-white rounded-lg p-3 max-w-md" style="background-color: #3551db;">
+                      <div class="text-xs font-medium text-orange-100 mb-1">Marc Dupont</div>
+                      <p class="text-sm text-white">
+                        Parfait ! Les rendus sont très réussis. Pouvez-vous changer la couleur de la façade pour un ton plus chaud ?
+                      </p>
+                      <div class="text-xs mt-2 text-orange-100">30 Août, 16:20</div>
+                    </div>
+                  </div>
+                </div>
+    
+                <!-- Message 3 -->
+                <div class="flex justify-start">
+                  <div class="flex items-start space-x-3">
+                    <div class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-medium" style="background-color: #3551db;">
+                      S
+                    </div>
+                    <div class="bg-gray-50 text-gray-900 rounded-lg p-3 max-w-md">
+                      <div class="text-xs font-medium text-gray-600 mb-1">Sacha - 10inr</div>
+                      <p class="text-sm">Nous allons intégrer cette modification. Avez-vous une référence de couleur précise en tête ?</p>
+                      <div class="text-xs mt-2 text-gray-500">30 Août,, 16:45</div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- New Message Input -->
+              <div class="border-t p-4 space-y-3">
+                <textarea class="w-full p-2 border rounded-lg min-h-[80px]" placeholder="Tapez votre message..."></textarea>
+                <div class="flex justify-between items-center">
+                  <p class="text-xs text-gray-500">On vous répondra dans les 2h en moyenne</p>
+                  <button class="px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-lg flex items-center text-sm">
+                    <span data-lucide="send" class="w-4 h-4"></span>
+                    <span class="ml-2">Envoyer</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Validation Panel -->
+          <div class="space-y-6">
+
+            <!-- Next Steps -->
+          <div class="nova-card bg-white rounded-2xl shadow p-6">
+            <div class="pb-3 flex items-center space-x-2">
+              <i data-lucide="flag" class="w-5 h-5 text-blue-600"></i>
+              <span>Détails du projet</span>
+            </div>
+            <div class="space-y-4">
+              <div class="p-4 rounded-lg border" style="background-color: #3551db59;">
+                <p class="text-sm mb-3" style="display: flex; justify-content: space-between;">
+                  <span> Type de bien : </span> <span style=" color: #000000; font-weight: bold;">Résidentiel</span>
+                </p>
+                <p class="text-sm mb-3" style="display: flex; justify-content: space-between;">
+                  Logements : <span style="  color: #000000; font-weight: bold;">12 unités</span>
+                </p>
+                <p class="text-sm mb-3" style="display: flex; justify-content: space-between;">
+                  Surface totale : <span style=" color: #000000; font-weight: bold;">1,200 m²</span>
+                </p>
+                <p class="text-sm mb-3" style="display: flex; justify-content: space-between;">
+                  Échéance : <span style=" color: #000000; font-weight: bold;">15 Septembre 2025</span>
+                </p>
+                
+              </div>
+            </div>
+          </div>
+
+            <!-- Version History -->
+            <div class="nova-card bg-white rounded-2xl shadow p-6">
+              <div class="pb-3 flex items-center space-x-2">
+                <span class="w-2 h-2 bg-blue-600 rounded-full"></span>
+                <span>Conseils</span>
+              </div>
+              <div class="space-y-3">
+                <li class="text-sm mb-3" style="color: #0000009a;">Soyez précis dans vos demandes de modification</li>
+                <li class="text-sm mb-3" style="color: #0000009a;">Joignez des références visuelles si possible</li>
+                <li class="text-sm mb-3" style="color: #0000009a;">N'hésitez pas à programmer un appel pour les questions complexes</li>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Tips -->
+        <div class="nova-card p-6 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-100 rounded-2xl shadow">
+          <h3 class="text-lg font-semibold mb-2 flex items-center space-x-2">
+            <span data-lucide="lightbulb" class="w-5 h-5 text-yellow-500"></span>
+            <span>Communication efficace</span>
+          </h3>
+          <p class="text-sm text-gray-500">
+            Plus vos retours sont précis, plus nous pouvons livrer exactement ce que vous attendez. 
+            N'hésitez pas à être spécifique sur vos demandes !
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- FICHIERS -->
+    <div id="fichiers" class="tabs">
+      <!-- Header -->
+      <div class="nova-card p-8 bg-white rounded-2xl shadow">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2" style="color: #3551db;">
+          Espace de dépôt & livraison
+        </h1>
+        <p class="text-lg text-gray-500">
+          Centralisez tous vos fichiers projet en un seul endroit
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+        <!-- Client Files -->
+        <div class="nova-card bg-white rounded-2xl shadow">
+          <div class="p-6 border-b border-gray-100">
+            <div class="flex items-center space-x-2">
+              <i data-lucide="upload" class="w-5 h-5 text-blue-500"></i>
+              <h3 class="font-semibold">Vos fichiers envoyés</h3>
+            </div>
+            <p class="text-sm text-gray-500 mt-1">Documents et assets que vous avez partagés avec l'équipe</p>
+          </div>
+          <div class="p-6 space-y-4">
+            <!-- Exemple fichier -->
+            <div class="p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
+              <div class="flex items-start justify-between">
+                <div class="flex items-start space-x-3">
+                  <i data-lucide="image" class="w-5 h-5 text-blue-500"></i>
+                  <div>
+                    <h4 class="font-medium text-sm">Logo-AIBoost.png</h4>
+                    <p class="text-xs text-gray-500 mt-1">Logo principal de la marque</p>
+                    <div class="flex items-center space-x-2 mt-2 text-xs text-gray-500">
+                      <span>2.5 MB</span> • <span>15 juillet 2025</span>
+                    </div>
+                  </div>
+                </div>
+                <button class="px-2 py-1 border rounded text-sm hover:bg-gray-100">
+                  <i data-lucide="download" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Brief-Webinaire.docx -->
+            <div class="p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
+              <div class="flex items-start justify-between">
+                <div class="flex items-start space-x-3">
+                  <i data-lucide="file-text" class="w-5 h-5 text-red-500"></i>
+                  <div>
+                    <h4 class="font-medium text-sm">Brief-Webinaire.docx</h4>
+                    <p class="text-xs text-gray-500 mt-1">Document avec les objectifs et le public cible</p>
+                    <div class="flex items-center space-x-2 mt-2 text-xs text-gray-500">
+                      <span>1.2 MB</span> • <span>15 juillet 2025</span>
+                    </div>
+                  </div>
+                </div>
+                <button class="px-2 py-1 border rounded text-sm hover:bg-gray-100">
+                  <i data-lucide="download" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Copywriting-Elements.txt -->
+            <div class="p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
+              <div class="flex items-start justify-between">
+                <div class="flex items-start space-x-3">
+                  <i data-lucide="file-text" class="w-5 h-5 text-gray-500"></i>
+                  <div>
+                    <h4 class="font-medium text-sm">Copywriting-Elements.txt</h4>
+                    <p class="text-xs text-gray-500 mt-1">Textes et accroches pour la landing page</p>
+                    <div class="flex items-center space-x-2 mt-2 text-xs text-gray-500">
+                      <span>45 KB</span> • <span>16 juillet 2025</span>
+                    </div>
+                  </div>
+                </div>
+                <button class="px-2 py-1 border rounded text-sm hover:bg-gray-100">
+                  <i data-lucide="download" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+
+
+            <!-- Bouton ajouter -->
+            <button class="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-lg px-4 py-2 flex items-center justify-center">
+              <i data-lucide="upload" class="w-4 h-4 mr-2"></i> Ajouter un fichier
+            </button>
+          </div>
+        </div>
+
+        <!-- Delivered Files -->
+        <div class="nova-card bg-white rounded-2xl shadow">
+          <div class="p-6 border-b border-gray-100">
+            <div class="flex items-center space-x-2">
+              <i data-lucide="download" class="w-5 h-5 text-blue-500"></i>
+              <h3 class="font-semibold">Fichiers livrés par l'agence</h3>
+            </div>
+            <p class="text-sm text-gray-500 mt-1">Livrables créés par l'équipe 10inr</p>
+          </div>
+          <div class="p-6 space-y-4">
+            <!-- Exemple livrable -->
+            <div class="p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
+              <div class="flex items-start justify-between">
+                <div class="flex items-start space-x-3">
+                  <i data-lucide="file-text" class="w-5 h-5 text-red-500"></i>
+                  <div>
+                    <div class="flex items-center space-x-2">
+                      <h4 class="font-medium text-sm">Wireframe-Landing-V1.pdf</h4>
+                      <span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">V1</span>
+                      <span class="text-xs bg-green-100 text-green-600 px-2 py-0.5 rounded">✓ Validé</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Structure et organisation des contenus</p>
+                    <div class="flex items-center space-x-2 mt-2 text-xs text-gray-500">
+                      <span>3.8 MB</span> • <span>18 juillet 2025</span> • <span>Sophie - 10inr</span>
+                    </div>
+                  </div>
+                </div>
+                <button class="px-2 py-1 border rounded text-sm hover:bg-gray-100">
+                  <i data-lucide="download" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Maquette-Figma-V2.fig -->
+            <div class="p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
+              <div class="flex items-start justify-between">
+                <div class="flex items-start space-x-3">
+                  <i data-lucide="image" class="w-5 h-5 text-purple-500"></i>
+                  <div>
+                    <div class="flex items-center space-x-2">
+                      <h4 class="font-medium text-sm">Maquette-Figma-V2.fig</h4>
+                      <span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">V2</span>
+                      <span class="text-xs bg-green-100 text-green-600 px-2 py-0.5 rounded">✓ Validé</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Design complet validé par le client</p>
+                    <div class="flex items-center space-x-2 mt-2 text-xs text-gray-500">
+                      <span>12.5 MB</span> • <span>22 juillet 2025</span> • <span>Sophie - 10inr</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex space-x-2">
+                  <button class="px-2 py-1 border rounded text-sm hover:bg-gray-100">
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                  </button>
+                  <button class="px-2 py-1 border rounded text-sm hover:bg-gray-100">
+                    <i data-lucide="download" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Landing-Page-Webflow.zip -->
+            <div class="p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
+              <div class="flex items-start justify-between">
+                <div class="flex items-start space-x-3">
+                  <i data-lucide="archive" class="w-5 h-5 text-orange-500"></i>
+                  <div>
+                    <div class="flex items-center space-x-2">
+                      <h4 class="font-medium text-sm">Landing-Page-Webflow.zip</h4>
+                      <span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">V1</span>
+                      <span class="text-xs bg-yellow-100 text-yellow-600 px-2 py-0.5 rounded">🔄 En cours</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Code et assets pour intégration</p>
+                    <div class="flex items-center space-x-2 mt-2 text-xs text-gray-500">
+                      <span>8.2 MB</span> • <span>25 juillet 2025</span> • <span>Sophie - 10inr</span>
+                    </div>
+                  </div>
+                </div>
+                <button class="px-2 py-1 border rounded text-sm hover:bg-gray-100">
+                  <i data-lucide="download" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+
+            <a href="#" data-tab="chat" class="w-full bg-gradient-to-r from-blue-500 to-indigo-500 justify-center flex items-center px-4 py-2 rounded-lg text-white text-sm font-medium shadow" style="background-color: #8C52FE;">
+                <i ></i> Laisser un feedback
+            </a>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Checklist -->
+      <div class="nova-card bg-white rounded-2xl shadow p-6 mt-8">
+        <div class="flex items-center space-x-2 mb-2">
+          <span>✅</span>
+          <h3 class="font-semibold">Checklist du client</h3>
+        </div>
+        <p class="text-sm text-gray-500 mb-4">Assurez-vous d'avoir fourni tous les éléments nécessaires</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <label class="flex items-center space-x-2">
+              <input type="checkbox" checked class="rounded border-gray-300" />
+              <span class="text-sm">Logo envoyé</span>
+            </label>
+            <label class="flex items-center space-x-2">
+              <input type="checkbox" checked class="rounded border-gray-300" />
+              <span class="text-sm">Objectifs clarifiés</span>
+            </label>
+            <label class="flex items-center space-x-2">
+              <input type="checkbox" class="rounded border-gray-300" />
+              <span class="text-sm">Inspirations visuelles partagées</span>
+            </label>
+          </div>
+          <div class="space-y-2">
+            <label class="flex items-center space-x-2">
+              <input type="checkbox" class="rounded border-gray-300" />
+              <span class="text-sm">Accès domaine/hébergement partagé</span>
+            </label>
+            <label class="flex items-center space-x-2">
+              <input type="checkbox" checked class="rounded border-gray-300" />
+              <span class="text-sm">Textes et copywriting fournis</span>
+            </label>
+            <label class="flex items-center space-x-2">
+              <input type="checkbox" class="rounded border-gray-300" />
+              <span class="text-sm">Données Google Analytics fournies</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tips -->
+      <div class="nova-card p-6 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-2xl shadow mt-8">
+        <h3 class="text-lg font-semibold mb-2">💡 Organisation optimale</h3>
+        <p class="text-sm text-gray-500">
+          Tous vos fichiers sont organisés automatiquement par version et étape de projet. 
+          Vous retrouvez facilement l'historique complet de votre collaboration.
+        </p>
+      </div>
+    </div>
+
+    <!-- COMMENTAIRES -->
+    <div id="commentaires" class="tabs">
+      <div class="card">
+        <h2>Feedback sur la V1 du design</h2>
+
+        <div class="chat-container">
+          <div class="chat-bubble bubble-team">
+            Nous avons livré la V1 du design, dites-nous ce que vous en pensez 🧐
+          </div>
+          <div class="chat-bubble bubble-client">
+            J’adore les couleurs mais le bouton CTA est trop discret – à renforcer.
+          </div>
+        </div>
+
+        <div style="display:flex; gap:12px;">
+          <button class="btn">Valider</button>
+          <button class="btn btn-outline">Demander modifications</button>
+        </div>
+
+        <p style="margin:12px 0;"><small>Lien vers versions : <strong>V1</strong> • V2 • V3</small></p>
+        <p>Votre avis nous guide à chaque étape.</p>
+      </div>
+    </div>
+
+    <!-- PAIEMENTS -->
+    <div id="paiements" class="tabs">
+      <div class="space-y-8">
+
+        <!-- Header -->
+        <div class="nova-card p-8 bg-white rounded-2xl shadow">
+          <h1 class="text-3xl font-bold" style="color: #3551db;">Factures & Paiements</h1>
+          <p class="text-gray-500 text-lg">Suivez vos paiements ou gérez vos factures</p>
+        </div>
+
+        <!-- Onglets internes -->
+        <div class="flex border-b">
+          <button onclick="showPaymentPage('overview')" 
+                  class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-blue-600 text-blue-600" style="color: #3551db;">
+            <i data-feather="bar-chart-2" class="inline mr-1"></i> Suivi des Paiements
+          </button>
+          <button onclick="showPaymentPage('invoices')" 
+                  class="tab-btn px-4 py-2 text-sm font-medium text-gray-600 hover:text-blue-600">
+            <i data-feather="file-text" class="inline mr-1"></i> Factures
+          </button>
+        </div>
+
+        <!-- PAGE 1 : Suivi -->
+        <div id="page-overview" class="payment-page space-y-8">
+
+          <!-- Stats -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white shadow p-4 rounded-lg">
+              <div class="flex items-center justify-between pb-2">
+                <span class="text-sm font-medium">Montant Total</span> <i data-feather="dollar-sign"></i>
+              </div>
+              <div class="text-2xl font-bold">3,50 €</div>
+              <p class="text-xs text-gray-500">Les posts du mois de Juillet</p>
+            </div>
+
+            <div class="bg-white shadow p-4 rounded-lg">
+              <div class="flex items-center justify-between pb-2">
+                <span class="text-sm font-medium">Montant Payé</span>
+                <i data-feather="check-circle" class="text-green-500"></i>
+              </div>
+              <div class="text-2xl font-bold text-green-500" style="color: #3551db;">1,750 €</div>
+              <p class="text-xs text-gray-500">50% du projet</p>
+            </div>
+
+            <div class="bg-white shadow p-4 rounded-lg">
+              <div class="flex items-center justify-between pb-2">
+                <span class="text-sm font-medium">Montant Restant</span>
+                <i data-feather="clock" class="text-yellow-500"></i>
+              </div>
+              <div class="text-2xl font-bold text-yellow-500">1,750 €</div>
+              <p class="text-xs text-gray-500">Échéance : 5 Déc 2025</p>
+            </div>
+          </div>
+
+          <!-- Progression -->
+          <div class="bg-white shadow p-4 rounded-lg">
+            <h2 class="text-lg font-medium mb-2">Progression des Paiements</h2>
+            <div class="space-y-3">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">Paiements effectués</span>
+                <span class="font-medium">50%</span>
+              </div>
+              <div class="bg-gray-200 h-3 rounded">
+                <div class="bg-green-500 h-3 rounded" style="width:50%; background-color: #3551db;"></div>
+              </div>
+              <div class="flex justify-between text-sm text-gray-500">
+                <span style="color: #3551db;">1,750 € payés</span>
+                <span>1,750 € restants</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Échéancier -->
+          <div class="bg-white shadow p-4 rounded-lg">
+            <h2 class="text-lg font-medium mb-4">Échéancier de Paiement</h2>
+
+            <div class="flex items-center justify-between p-4 rounded-lg bg-gray-100 mb-2">
+              <div class="flex items-center gap-4">
+                <i data-feather="check-circle" class="text-green-500"></i>
+                <div>
+                  <h3 class="font-medium">Acompte (50%)</h3>
+                  <p class="text-sm text-gray-500">Échéance : 15 Nov 2025 • Payé le 15 Nov</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="font-medium text-lg">1,750 €</div>
+                <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">Payé</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between p-4 rounded-lg bg-gray-100">
+              <div class="flex items-center gap-4">
+                <i data-feather="clock" class="text-yellow-500"></i>
+                <div>
+                  <h3 class="font-medium">Solde (50%)</h3>
+                  <p class="text-sm text-gray-500">Échéance : 5 Déc 2025</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="font-medium text-lg">1,750 €</div>
+                <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs">En attente</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE 2 : Factures -->
+        <div id="page-invoices" class="payment-page hidden space-y-6">
+          <div class="bg-white shadow p-4 rounded-lg">
+            <h2 class="text-lg font-medium mb-4">Liste des Factures</h2>
+
+            <div class="flex items-center justify-between p-4 rounded-lg border mb-2">
+              <div class="flex items-center gap-4">
+                <i data-feather="dollar-sign" class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center p-3"></i>
+                <div>
+                  <h3 class="font-medium">Facture HL-2025-001</h3>
+                  <p class="text-sm text-gray-500">Facture d'acompte - Payée</p>
+                  <span class="text-xs text-gray-400">Émise : 15 Nov 2025</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="font-medium text-lg">1,750 €</div>
+                <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">Payé</span>
+                <button class="border px-2 py-1 rounded text-sm mt-1">Télécharger</button>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between p-4 rounded-lg border">
+              <div class="flex items-center gap-4">
+                <i data-feather="dollar-sign" class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center p-3"></i>
+                <div>
+                  <h3 class="font-medium">Facture HL-2025-002</h3>
+                  <p class="text-sm text-gray-500">Facture de solde - Brouillon</p>
+                  <span class="text-xs text-gray-400">Échéance : 5 Déc 2025</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="font-medium text-lg">1,750 €</div>
+                <span class="bg-gray-200 text-gray-500 px-2 py-1 rounded text-xs">Brouillon</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+<!-- CONTACT -->
+<div id="contact" class="tabs">
+  <div class="space-y-8">
+
+    <!-- Header -->
+    <div class="nova-card p-8 bg-white rounded-2xl shadow">
+      <h1 class="text-3xl font-bold text-gray-800 mb-2" style="color: #3551db;">Contact Agence</h1>
+      <p class="text-lg text-gray-500">L'équipe 10inr est là pour vous accompagner</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+      <!-- Contact Form -->
+      <div class="nova-card bg-white rounded-2xl shadow p-6">
+        <div class="mb-4">
+          <div class="flex items-center space-x-2 mb-1">
+            <i data-feather="message-circle" class="inline"></i>
+            <h2 class="font-semibold">Envoyer un message</h2>
+          </div>
+          <p class="text-sm text-gray-500">Une question ? Un besoin spécifique ? Nous vous répondons rapidement.</p>
+        </div>
+
+        <form class="space-y-4">
+          <div>
+            <label class="text-sm font-medium mb-2 block">Sujet</label>
+            <input type="text" placeholder="De quoi souhaitez-vous parler ?" class="w-full p-2 border rounded-md text-sm" />
+          </div>
+
+          <div>
+            <label class="text-sm font-medium mb-2 block">Urgence</label>
+            <select class="w-full p-2 border border-gray-200 rounded-md text-sm">
+              <option value="low">Non urgent</option>
+              <option value="normal" selected>Normal</option>
+              <option value="high">Urgent</option>
+              <option value="critical">Très urgent</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="text-sm font-medium mb-2 block">Message</label>
+            <textarea placeholder="Décrivez votre demande en détail..." class="w-full p-2 border rounded-md text-sm min-h-[120px]"></textarea>
+          </div>
+
+          <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-lg px-4 py-2 flex items-center justify-center">
+            <i data-feather="arrow-right" class="inline"></i>
+            <span class="ml-2">Envoyer le message</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Team Members -->
+      <div class="space-y-6">
+
+        <div class="nova-card bg-white rounded-2xl shadow p-6">
+          <div class="mb-4">
+            <div class="flex items-center space-x-2">
+              <i data-feather="users" class="inline"></i>
+              <h3 class="font-semibold">Votre équipe dédiée</h3>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <!-- Member 1 -->
+            <div class="p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
+              <div class="flex items-start space-x-3">
+                <div class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-medium" style="background-color: #3551db;">S</div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center justify-between">
+                    <h4 class="font-medium text-sm">Sacha</h4>
+                    <span class="text-xs px-2 py-1 rounded-full bg-green-100 text-green-600">En ligne</span>
+                  </div>
+                  <p class="text-xs text-gray-500">Chef de projet - Votre contact principal</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Member 2 -->
+            <div class="p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
+              <div class="flex items-start space-x-3">
+                <div class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-medium" style="background-color: #3551db;">AM</div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center justify-between">
+                    <h4 class="font-medium text-sm">Antoine Martin</h4>
+                    <span class="text-xs px-2 py-1 rounded-full bg-yellow-100 text-yellow-600" style="background-color: #8b52fe3f; color: #3551db;">Occupé jusqu'à 16h</span>
+                  </div>
+                  <p class="text-xs text-gray-500">Architecte 3D</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="nova-card bg-white rounded-2xl shadow p-6">
+          <div class="mb-4">
+            <h3 class="text-lg font-semibold">Actions rapides</h3>
+          </div>
+          <div class="space-y-3">
+            <button class="w-full flex items-center px-4 py-2 border rounded-lg text-sm">
+              <i data-feather="calendar" class="inline"></i>
+              <span class="ml-2">Planifier un rendez-vous</span>
+            </button>
+            <button class="w-full flex items-center px-4 py-2 border rounded-lg text-sm">
+              <i data-feather="phone" class="inline"></i>
+              <span class="ml-2">Demander un appel</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Contact Info -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="nova-card bg-white rounded-2xl shadow text-center p-6">
+        <i data-feather="mail" class="inline mb-2"></i>
+        <h3 class="font-semibold mb-2">Email</h3>
+        <p class="text-sm text-gray-500 mb-2">Réponse en moins de 2h</p>
+        <a href="mailto:sacha.guivarch@gmail.com" class="text-sm text-blue-600 hover:underline">sacha.guivarch@gmail.com</a>
+      </div>
+      <div class="nova-card bg-white rounded-2xl shadow text-center p-6">
+        <i data-feather="phone" class="inline mb-2"></i>
+        <h3 class="font-semibold mb-2">Téléphone</h3>
+        <p class="text-sm text-gray-500 mb-2">Lun-Ven 9h-18h</p>
+        <a href="tel:+33123456789" class="text-sm text-blue-600 hover:underline"> +33 7 82986221 </a>
+      </div>
+      <div class="nova-card bg-white rounded-2xl shadow text-center p-6">
+        <i data-feather="clock" class="inline mb-2"></i>
+        <h3 class="font-semibold mb-2">Support</h3>
+        <p class="text-sm text-gray-500 mb-2">Assistance dédiée</p>
+        <span class="text-sm text-blue-600">7j/7 disponible</span>
+      </div>
+    </div>
+
+    <!-- Help Section -->
+    <div class="nova-card p-6 bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-100 rounded-2xl shadow" >
+      <h3 class="text-lg font-semibold mb-2"><i data-feather="handshake" class="inline"></i> Notre engagement</h3>
+      <p class="text-sm text-gray-500">
+        Chez 10inr, chaque client a une équipe dédiée. Vous n'êtes jamais seul 
+        et nous nous adaptons à vos horaires et contraintes pour une collaboration optimale.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="demo-footer">
+      <p>Démo interactive – Votre espace client chez 10inr</p>
+    </div>
+  </div></div>
+
+  <script>
+  function showPaymentPage(page) {
+    document.querySelectorAll('.payment-page').forEach(el => el.classList.add('hidden'));
+    document.getElementById('page-' + page).classList.remove('hidden');
+
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('border-blue-600','text-blue-600'));
+    event.target.classList.add('border-blue-600','text-blue-600');
+  }
+  </script>
+  <script>
+    // Navigation entre onglets
+    function openTab(tabName) {
+      const tabs = document.querySelectorAll('.tabs');
+      tabs.forEach(tab => {
+        tab.classList.remove('active');
+      });
+
+      const links = document.querySelectorAll('#nav-menu a');
+      links.forEach(link => {
+        link.classList.remove('active');
+      });
+
+      document.getElementById(tabName).classList.add('active');
+      document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+    }
+
+    // Ajouter un écouteur à chaque lien
+    document.querySelectorAll('[data-tab]').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const tab = this.getAttribute('data-tab');
+        openTab(tab);
+      });
+    });
+
+    // Simuler l'envoi de message dans le chat
+    const chatInput = document.querySelector('.chat-input');
+    const chatMessages = document.getElementById('chat-messages');
+
+    document.querySelector('.chat-actions button:last-child').addEventListener('click', function() {
+      if (chatInput.value.trim() === '') return;
+
+      const msg = document.createElement('div');
+      msg.className = 'chat-bubble bubble-client';
+      msg.innerHTML = chatInput.value + '<small style="opacity:0.6; display:block; margin-top:4px;">just now ✓</small>';
+      chatMessages.appendChild(msg);
+      chatInput.value = '';
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+
+    // Permettre d'envoyer avec "Entrée"
+    chatInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        document.querySelector('.chat-actions button:last-child').click();
+      }
+    });
+
+    // Animation de la barre de progression au chargement
+    document.addEventListener('DOMContentLoaded', function() {
+      const bar = document.querySelector('.progress-bar');
+      bar.style.width = '0%';
+      setTimeout(() => {
+        bar.style.width = '50%';
+      }, 200);
+    });
+  </script>
+
+
+  <script src="https://unpkg.com/alpinejs" defer></script>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons(); 
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  <script>
+  feather.replace()
+</script>
+</body>
+</html>
