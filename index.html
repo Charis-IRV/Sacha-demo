@@ -561,8 +561,7 @@
                 <i data-lucide="folder-open" class="w-5 h-5 text-blue-600"></i>
                 <span>Votre Projet</span>
               </span>
-              <span class="px-3 py-1 rounded-full text-xs font-medium" style="background-color: #8b52fe00; color: #3551db;">
-                En cours
+              <span class="text-xs px-2 py-1 rounded-full bg-blue-100 text-blue-600">En cours</span>    
               </span>
             </div>
 
@@ -694,60 +693,174 @@
     <div id="projet" class="tabs">
       <div class="space-y-8">
 
-        <div class="nova-card p-8 bg-white rounded-2xl shadow">
+        <div >
           <h1 class="text-3xl font-bold text-gray-800 mb-2 flex items-center space-x-2">
-            <span style="color: #3551db;">Suivi détaillé de votre projet</span>
+            <span style="color: #3551db;">Suivi détaillé de vos projets</span>
           </h1>
-          <p class="text-lg text-gray-500">
-            Nous attendons vos retours pour continuer 
-          </p>
         </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <!-- Project Status Card -->
+          <div class="nova-card bg-white rounded-2xl shadow p-6">
+            <div class="pb-3 flex items-center justify-between">
+              <span class="flex items-center space-x-2">
+                <i data-lucide="folder-open" class="w-5 h-5 text-blue-600"></i>
+                <span>Votre Projet</span>
+              </span>
+              <span class="text-xs px-2 py-1 rounded-full bg-blue-100 text-blue-600">En cours</span>    
+              </span>
+            </div>
+
+            <div class="space-y-4">
+              <div>
+                <h3 class="font-semibold text-lg mb-2">Résidence Les Jardins</h3>
+                <div class="space-y-4">
+              <div class="p-4 rounded-lg border" >
+                <p class="text-sm mb-3" style="display: flex; justify-content: space-between;">
+                  <span> Type : </span> <span style=" color: #000000; font-weight: bold;">3D Extérieur</span>
+                </p>
+                <p class="text-sm mb-3" style="display: flex; justify-content: space-between;">
+                  Budget : <span style="  color: #000000; font-weight: bold;">2400 €</span>
+                </p>
+                <p class="text-sm mb-3" style="display: flex; justify-content: space-between;">
+                  Échéance : <span style=" color: #000000; font-weight: bold;">15 oct. 2025</span>
+                </p>
+                
+              </div>
+            </div>
+              </div>
+
+              <div class="space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-medium">Avancement global</span>
+                  <span class="text-sm font-bold text-blue-600">65%</span>
+                </div>
+                <!-- Progress Bar -->
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                  <div class="progress-bar" style="width: 65%"></div>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between pt-2">
+                <a href="#" data-tab="projet" class="inline-flex items-center px-4 py-2 rounded-lg bg-gradient-to-r to-indigo-500 text-white text-sm font-medium shadow" style="background-color: transparent; color: #3551db; border-color: #3551db; ">
+                  <i></i> Détails
+                </a>
+                <a href="#" data-tab="projet" class="inline-flex items-center px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-sm font-medium shadow">
+                  <i></i> Fichiers
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Status Card 2-->
+          <div class="nova-card bg-white rounded-2xl shadow p-6">
+            <div class="pb-3 flex items-center justify-between">
+              <span class="flex items-center space-x-2">
+                <i data-lucide="folder-open" class="w-5 h-5 text-blue-600"></i>
+                <span>Votre Projet</span>
+              </span>
+              <span class="text-xs px-2 py-1 rounded-full bg-green-100 text-green-600">Terminé</span>    
+              </span>
+            </div>
+
+            <div class="space-y-4">
+              <div>
+                <h3 class="font-semibold text-lg mb-2">Villa Moderne Cannes</h3>
+                <div class="space-y-4">
+              <div class="p-4 rounded-lg border" >
+                <p class="text-sm mb-3" style="display: flex; justify-content: space-between;">
+                  <span> Type : </span> <span style=" color: #000000; font-weight: bold;">3D Intérieur + Extérieur</span>
+                </p>
+                <p class="text-sm mb-3" style="display: flex; justify-content: space-between;">
+                  Budget : <span style="  color: #000000; font-weight: bold;">3200 €</span>
+                </p>
+                <p class="text-sm mb-3" style="display: flex; justify-content: space-between;">
+                  Échéance : <span style=" color: #000000; font-weight: bold;">30 juil. 2025</span>
+                </p>
+                
+              </div>
+            </div>
+              </div>
+
+              <div class="space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-medium">Avancement global</span>
+                  <span class="text-sm font-bold text-blue-600">100% complété</span>
+                </div>
+                <!-- Progress Bar -->
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                  <div class="progress-bar" style="width: 100%"></div>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between pt-2">
+                <a href="#" data-tab="projet" class="inline-flex items-center px-4 py-2 rounded-lg bg-gradient-to-r to-indigo-500 text-white text-sm font-medium shadow" style="background-color: transparent; color: #3551db; border-color: #3551db; ">
+                  <i></i> Détails
+                </a>
+                <a href="#" data-tab="projet" class="inline-flex items-center px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-sm font-medium shadow">
+                  <i></i> Fichiers
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Status Card 3-->
+          <div class="nova-card bg-white rounded-2xl shadow p-6">
+            <div class="pb-3 flex items-center justify-between">
+              <span class="flex items-center space-x-2">
+                <i data-lucide="folder-open" class="w-5 h-5 text-blue-600"></i>
+                <span>Votre Projet</span>
+              </span>
+              <span class="text-xs px-2 py-1 rounded-full bg-green-100 text-green-600">facturé</span>    
+              </span>
+            </div>
+
+            <div class="space-y-4">
+              <div>
+                <h3 class="font-semibold text-lg mb-2">Complexe Bureaux Lyon</h3>
+                <div class="space-y-4">
+              <div class="p-4 rounded-lg border" >
+                <p class="text-sm mb-3" style="display: flex; justify-content: space-between;">
+                  <span> Type : </span> <span style=" color: #000000; font-weight: bold;">3D Architecture</span>
+                </p>
+                <p class="text-sm mb-3" style="display: flex; justify-content: space-between;">
+                  Budget : <span style="  color: #000000; font-weight: bold;">5800 €</span>
+                </p>
+                <p class="text-sm mb-3" style="display: flex; justify-content: space-between;">
+                  Échéance : <span style=" color: #000000; font-weight: bold;">15 juil. 2025</span>
+                </p>
+                
+              </div>
+            </div>
+              </div>
+
+              <div class="space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-medium">Avancement global</span>
+                  <span class="text-sm font-bold text-blue-600">100% complète</span>
+                </div>
+                <!-- Progress Bar -->
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                  <div class="progress-bar" style="width: 100%"></div>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between pt-2">
+                <a href="#" data-tab="projet" class="inline-flex items-center px-4 py-2 rounded-lg bg-gradient-to-r to-indigo-500 text-white text-sm font-medium shadow" style="background-color: transparent; color: #3551db; border-color: #3551db; ">
+                  <i></i> Détails
+                </a>
+                <a href="#" data-tab="projet" class="inline-flex items-center px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-sm font-medium shadow">
+                  <i></i> Fichiers
+                </a>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
             
-        <div class="card">
-          <h2 class="flex items-center space-x-2">
-            <span class="w-5 h-5 text-purple-600"></span>
-            <h1 style="font-weight: bolder;">Timeline du projet</h1>
-          </h2>
-          <p>Suivi détaillé de votre projet</p>
 
-          <!-- Timeline Steps -->
-          <div class="steps">
-            <div class="step done">
-              <div class="step-dot"></div>
-              <div class="step-label">Devis signé </div>
-            </div>
-            <div class="step done">
-              <div class="step-dot"></div>
-              <div class="step-label">Onboarding</div>
-            </div>
-            <div class="step active">
-              <div class="step-dot">3</div>
-              <div class="step-label">Design </div>
-            </div>
-            <div class="step">
-              <div class="step-dot">4</div>
-              <div class="step-label">Livraison </div>
-            </div>
-            <div class="step ">
-              <div class="step-dot">5</div>
-              <div class="step-label"> Révision </div>
-            </div>
-          </div>
-
-          <!-- Progress Bar -->
-          <div class="progress-container">
-            <div class="progress-bar" style="width:65%"></div>
-          </div>
-
-          <p><strong>Client :</strong> Mark Dupont</p>
-          <p><strong>Deadline :</strong> 30 Septembre 2025</p>
-          <p><strong>Gestionnaire :</strong> Sacha – @10inr</p> <br>
-
-          <p>
-            Dans la section Fichiers tu y trouveras tout les fichiers envoyés par nous et vous aussi vous pourrez nous envoyer vos fichiers via cette section
-          </p>
-
-        </div>
       </div>
     </div>
 
@@ -1460,7 +1573,7 @@
 
     <!-- FOOTER -->
     <div class="demo-footer">
-      <p>Démo interactive – Votre espace client chez 10inr</p>
+      <p>Démo interactive – Votre espace client chez NovaSpace</p>
     </div>
   </div></div>
 

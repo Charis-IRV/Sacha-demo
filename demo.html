@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portail Client - Agence Architecture</title>
+
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  
+
+  <!-- Icônes Lucide -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bleu-marin: #3551DB;
+      --bleu-cray: #F0F8FF;
+      --blanc: #FFFFFF;
+      --gris-clair: #f3f4f6;
+      --gris: #d1d5db;
+      --noir: #111827;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      --radius: 12px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f9fafb;
+      color: var(--noir);
+      line-height: 1.6;
+    }
+
+    /* === LAYOUT === */
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* === SIDEBAR === */
+    .sidebar {
+      width: 260px;
+      background: var(--bleu-marin);
+      color: white;
+      padding: 24px 0;
+      position: fixed;
+      height: 100%;
+      z-index: 1000;
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
+      padding: 0 24px 24px;
+      font-weight: 700;
+      font-size: 1.4rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      margin-top: 16px;
+      flex: 1;
+    }
+
+    .sidebar-menu li {
+      padding: 12px 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: background 0.2s;
+    }
+
+    .sidebar-menu li:hover,
+    .sidebar-menu li.active {
+      background: rgba(255,255,255,0.1);
+      border-left: 4px solid white;
+    }
+
+    .sidebar-menu i {
+      width: 20px;
+      text-align: center;
+    }
+
+    /* === MAIN CONTENT === */
+    .main-content {
+      flex: 1;
+      margin-left: 260px;
+      padding: 24px;
+      transition: margin-left 0.3s ease;
+    }
+
+    /* === SECTIONS === */
+    .section {
+      display: none;
+      opacity: 0;
+      animation: fadeIn 0.4s ease forwards;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* === GENERAL STYLES === */
+    h1, h2, h3 {
+      color: var(--bleu-marin);
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+    }
+
+    p {
+      color: #4b5563;
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+    }
+
+    .card {
+      background: var(--blanc);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .btn {
+      background-color: var(--bleu-marin);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(53, 81, 219, 0.3);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--bleu-marin);
+      color: var(--bleu-marin);
+    }
+
+    /* === FORM === */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 6px;
+      color: var(--noir);
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--gris);
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+
+    /* === PROGRESS BAR === */
+    .progress-container {
+      width: 100%;
+      background: #e5e7eb;
+      border-radius: 999px;
+      height: 8px;
+      margin: 16px 0;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: var(--bleu-marin);
+      border-radius: 999px;
+      transition: width 1.2s ease;
+    }
+
+    /* === PROJECT LIST === */
+    .project-list {
+      list-style: none;
+    }
+
+    .project-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      background: var(--bleu-cray);
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    .project-item:hover {
+      background: #e6f2ff;
+    }
+
+    /* === FILE LIST === */
+    .file-list {
+      list-style: none;
+    }
+
+    .file-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gris-clair);
+    }
+
+    .file-name {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #4b5563;
+    }
+
+    .file-actions button {
+      background: none;
+      border: none;
+      color: var(--bleu-marin);
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    /* === CHAT === */
+    .chat-container {
+      height: 300px;
+      overflow-y: auto;
+      margin-bottom: 16px;
+      padding-right: 8px;
+    }
+
+    .chat-bubble {
+      max-width: 70%;
+      padding: 10px 14px;
+      border-radius: 18px;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+    }
+
+    .bubble-client {
+      background: #f1f3f5;
+      color: var(--noir);
+      margin-left: auto;
+      border-bottom-right-radius: 4px;
+    }
+
+    .bubble-team {
+      background: var(--bleu-marin);
+      color: white;
+      margin-right: auto;
+      border-bottom-left-radius: 4px;
+    }
+
+    .chat-footer {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 12px;
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1px solid var(--gris);
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+
+    /* === TABLES === */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    th {
+      text-align: left;
+      padding: 12px;
+      color: #6b7280;
+      font-weight: 500;
+    }
+
+    td {
+      padding: 12px;
+      border-top: 1px solid #f3f4f6;
+    }
+
+    .status {
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .status.paid {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status.pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .action-link {
+      color: var(--bleu-marin);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    /* === MOBILE MENU BUTTON === */
+    .mobile-toggle {
+      display: none;
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 1100;
+      background: var(--bleu-marin);
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 1024px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      .main-content {
+        margin-left: 0;
+      }
+      .mobile-toggle {
+        display: block;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        padding: 16px;
+      }
+      h1 {
+        font-size: 1.5rem;
+      }
+      .card {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+
+  <!-- Bouton mobile -->
+  <button class="mobile-toggle" id="mobile-menu-toggle">☰</button>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">PORTAIL CLIENT</div>
+    <ul class="sidebar-menu">
+      <li class="active" data-section="accueil">
+        <i data-lucide="home"></i> <span>Accueil</span>
+      </li>
+      <li data-section="nouveau-projet">
+        <i data-lucide="plus-circle"></i> <span>Nouveau Projet</span>
+      </li>
+      <li data-section="mes-projets">
+        <i data-lucide="folder"></i> <span>Mes Projets</span>
+      </li>
+      <li data-section="messagerie">
+        <i data-lucide="message-square"></i> <span>Messagerie</span>
+      </li>
+      <li data-section="fichiers">
+        <i data-lucide="upload-cloud"></i> <span>Fichiers</span>
+      </li>
+      <li data-section="factures">
+        <i data-lucide="credit-card"></i> <span>Factures & Paiements</span>
+      </li>
+      <li data-section="support">
+        <i data-lucide="help-circle"></i> <span>Support</span>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- Contenu principal -->
+  <main class="main-content">
+
+    <!-- === ONGLET ACCUEIL === -->
+<section id="accueil" class="section active">
+  <div class="space-y-8">
+
+    <!-- Bannière principale -->
+    <div class="card" style="background: linear-gradient(135deg, #3551DB 0%, #4a6ad1 100%); color: white; border-radius: 16px; padding: 32px; position: relative; overflow: hidden;">
+      <div style="position: absolute; top: 20px; right: 20px; font-size: 1.5rem; opacity: 0.2;">🏠</div>
+      <h1 class="text-3xl font-bold mb-2">Bienvenue sur votre portail</h1>
+      <p class="text-lg opacity-90" style="max-width: 600px;">
+        Votre projet est entre de bonnes mains. Avancez étape par étape, sans stress.
+      </p>
+      <div style="margin-top: 20px; font-size: 0.9rem; opacity: 0.8;">
+        📅 Dernière connexion : Aujourd’hui à 14:30
+      </div>
+    </div>
+
+    <!-- Statut du projet principal -->
+    <div class="card">
+      <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+        <div class="flex items-center gap-2">
+          <i data-lucide="folder" class="w-5 h-5 text-blue-600"></i>
+          <h2>Votre Projet en Cours</h2>
+        </div>
+        <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-medium">
+          En cours
+        </span>
+      </div>
+
+      <div class="mt-4">
+        <h3 class="text-xl font-semibold">Maison Familiale – Projet 2025</h3>
+        <p class="text-gray-600 mt-1">Architecture sur-mesure, extension & aménagement extérieur</p>
+      </div>
+
+      <!-- Progression -->
+      <div class="mt-6">
+        <div class="flex justify-between text-sm mb-2">
+          <span>Avancement global</span>
+          <span class="font-bold text-blue-600">65%</span>
+        </div>
+        <div class="progress-container">
+          <div class="progress-bar" style="width: 65%;"></div>
+        </div>
+      </div>
+
+      <!-- Informations projet -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 text-sm">
+        <div>
+          <strong>Type de bien :</strong> Résidentiel
+        </div>
+        <div>
+          <strong>Surface :</strong> 220 m²
+        </div>
+        <div>
+          <strong>Échéance :</strong> 15 avril 2025
+        </div>
+      </div>
+
+      <!-- Bouton d'accès -->
+      <div class="mt-6 flex justify-between items-center">
+        <p class="text-sm text-gray-500">Gestionnaire : <strong>Sophie – Architecte Principal</strong></p>
+        <button class="btn" onclick="switchSection('mes-projets')">Voir le projet</button>
+      </div>
+    </div>
+
+    <!-- Dernières activités -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Détails projet -->
+      <div class="card">
+        <div class="flex items-center gap-2 pb-3 border-b border-gray-100">
+          <i data-lucide="info" class="w-5 h-5 text-blue-600"></i>
+          <h2>Détails du Projet</h2>
+        </div>
+        <div class="space-y-3 mt-4">
+          <div class="p-4 bg-blue-50 rounded-lg">
+            <p class="text-sm"><strong>Type de bien :</strong> <span style="color: #3551DB; font-weight: 600;">Maison individuelle</span></p>
+            <p class="text-sm"><strong>Nombre d’étages :</strong> 2</p>
+            <p class="text-sm"><strong>Surface totale :</strong> 220 m²</p>
+            <p class="text-sm"><strong>Localisation :</strong> Lyon, France</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Activité récente -->
+      <div class="card">
+        <div class="flex items-center gap-2 pb-3 border-b border-gray-100">
+          <i data-lucide="activity" class="w-5 h-5 text-blue-600"></i>
+          <h2>Dernières Activités</h2>
+        </div>
+        <div class="space-y-4 mt-4">
+          <div class="flex items-start gap-3">
+            <div class="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+            <div>
+              <p class="text-sm font-medium">Plans 2D V3 livrés</p>
+              <p class="text-xs text-gray-500">Il y a 2 heures</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+            <div>
+              <p class="text-sm font-medium">Commentaire ajouté</p>
+              <p class="text-xs text-gray-500">Hier</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+            <div>
+              <p class="text-sm font-medium">Paiement validé</p>
+              <p class="text-xs text-gray-500">Il y a 3 jours</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Message d'encouragement -->
+    <div class="card" style="background-color: #F0F8FF; border-left: 4px solid #3551DB;">
+      <h3 class="text-lg font-semibold flex items-center gap-2">
+        <i data-lucide="rocket" class="w-5 h-5 text-blue-600"></i>
+        Votre projet avance bien !
+      </h3>
+      <p class="text-gray-600 mt-2">
+        La phase de conception est en bonne voie. Nous attendons vos retours sur les plans 2D pour passer à la modélisation 3D.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+    <section id="nouveau-projet" class="section">
+  <div class="space-y-8">
+
+    <!-- En-tête -->
+    <div class="card" style="background: #111827; color: white; border-radius: 16px; padding: 32px;">
+      <h1 class="text-3xl font-bold mb-2">Lancer un Nouveau Projet</h1>
+      <p style="opacity: 0.9;">
+        Remplissez ce formulaire en 4 étapes. Nous vous répondrons sous 24h.
+      </p>
+    </div>
+
+    <!-- Barre d'étapes (boutons) -->
+    <div class="steps-container">
+      <div class="step-buttons">
+        <button class="step-btn active" data-step="1">1 Informations</button>
+        <button class="step-btn" data-step="2">2 Fichiers</button>
+        <button class="step-btn" data-step="3">3 Devis</button>
+        <button class="step-btn" data-step="4">4 Paiement</button>
+      </div>
+    </div>
+
+    <!-- Contenu des étapes -->
+    <div id="step-1" class="step-content active card">
+      <h2 class="text-xl font-semibold mb-4">1. Informations du projet</h2>
+      <div class="form-group">
+        <label>Nom du projet</label>
+        <input type="text" placeholder="Ex: Résidence Moderne..." required />
+      </div>
+      <div class="form-group">
+        <label>Type de service</label>
+        <select required>
+          <option value="">Sélectionner un service</option>
+          <option value="renovation">Rénovation intérieure</option>
+          <option value="construction">Nouvelle construction</option>
+          <option value="extension">Extension</option>
+          <option value="amenagement">Aménagement extérieur</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Description du projet</label>
+        <textarea rows="4" placeholder="Décrivez votre projet..."></textarea>
+      </div>
+      <button class="btn" onclick="goToStep(2)">Continuer</button>
+    </div>
+
+    <div id="step-2" class="step-content card" style="display: none;">
+      <h2 class="text-xl font-semibold mb-4">2. Fichiers & Plans</h2>
+      <p>Déposez vos plans 2D (PDF, DWG, etc.)</p>
+      <div class="file-upload-area" style="border: 2px dashed #3551DB; background: #1e293b; border-radius: 12px; padding: 40px; text-align: center; cursor: pointer; margin: 20px 0;">
+        <i data-lucide="upload-cloud" class="w-12 h-12 text-blue-400 mx-auto mb-4"></i>
+        <p class="text-gray-300">Glissez vos plans 2D ici ou <a href="#" class="text-blue-400 hover:underline">parcourir</a></p>
+      </div>
+      <button class="btn" onclick="goToStep(3)">Continuer</button>
+    </div>
+
+    <div id="step-3" class="step-content card" style="display: none;">
+      <h2 class="text-xl font-semibold mb-4">3. Devis & Signature</h2>
+      <div class="bg-blue-500/20 p-5 rounded-lg border border-blue-500/30">
+        <h3 class="font-bold text-lg">Devis estimé</h3>
+        <p><strong>Montant />\strong> <span id="quote-amount" style="color: #3551DB; font-weight: 700;">8 200 €</span></p>
+        <p><strong>Délai moyen：</strong> 6-8 semaines</p>
+        <p><strong>Validité：</strong> 30 jours</p>
+        <a href="#" class="action-link mt-2 block">📄 Télécharger le devis (PDF)</a>
+      </div>
+      <div class="mt-6">
+        <label>Signature électronique</label>
+        <div id="signature-pad" style="border: 1px dashed #3551DB; height: 100px; background: #1e293b; border-radius: 8px; position: relative; cursor: pointer;">
+          <div id="signature-text" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #9ca3af; font-size: 0.9rem;">
+            Cliquez pour signer
+          </div>
+          <canvas id="signature-canvas" style="display: none; width: 100%; height: 100%;"></canvas>
+        </div>
+        <button type="button" class="btn btn-outline mt-2" onclick="clearSignature()">Effacer</button>
+      </div>
+      <button class="btn" onclick="goToStep(4)">Continuer</button>
+    </div>
+
+    <div id="step-4" class="step-content card" style="display: none;">
+      <h2 class="text-xl font-semibold mb-4">4. Paiement</h2>
+      <div class="bg-yellow-500/20 p-5 rounded-lg border border-yellow-500/30">
+        <h3 class="font-bold text-lg">Paiement par virement</h3>
+        <p>Un seul paiement de <strong id="payment-amount">8 200 €</strong> à effectuer après signature.</p>
+        <div class="mt-3 p-3 bg-white/10 border border-white/20 rounded text-xs font-mono">
+          <strong>IBAN：</strong> FR76 1234 5678 9012 3456 7890 123<br>
+          <strong>BIC：</strong> BLOFGR2LXXX<br>
+          <strong>Titulaire：</strong> Agence Architecture & Design<br>
+          <strong>Référence：</strong> PROJ-2025-XXXX
+        </div>
+        <p class="text-xs text-yellow-300 mt-2">
+          ⏳ Le projet sera lancé dès réception du virement (délai moyen : 1 à 2 jours ouvrés).
+        </p>
+      </div>
+      <button class="btn" onclick="confirmProject()">Confirmer & Lancer le projet</button>
+    </div>
+
+    <!-- Message de confirmation -->
+    <div id="confirmation-message" class="card" style="display: none; background-color: #1e293b; border-left: 4px solid #3551DB;">
+      <h3 class="text-lg font-semibold flex items-center gap-2">
+        <i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i>
+        Projet confirmé avec succès !
+      </h3>
+      <p class="text-gray-300 mt-2">
+        Votre devis a été signé et votre projet est désormais en cours. Nous vous contacterons sous 24h.
+      </p>
+      <button class="btn mt-4" onclick="switchSection('mes-projets')">Voir mes projets</button>
+    </div>
+
+  </div>
+</section>
+
+
+    <!-- === ONgLET MES PROJETS === -->
+<section id="mes-projets" class="section">
+  <div class="space-y-8">
+
+    <!-- En-tête -->
+    <div class="card" style="background: linear-gradient(135deg, #3551DB 0%, #4a6ad1 100%); color: white; border-radius: 16px; padding: 32px;">
+      <h1 class="text-3xl font-bold mb-2">Mes Projets</h1>
+      <p style="opacity: 0.9;">
+        Suivez l’avancement de chacun de vos projets en temps réel.
+      </p>
+    </div>
+
+    <!-- Liste des projets -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Projet 1 : En cours -->
+      <div class="project-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+        <div style="height: 8px; background: #3551DB;"></div>
+        <div class="p-6">
+          <div class="flex justify-between items-start mb-3">
+            <h3 class="text-lg font-semibold">Maison Familiale 2025</h3>
+            <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">En cours</span>
+          </div>
+          <p class="text-sm text-gray-600 mb-4">
+            Résidentiel • 220 m² • Extension & aménagement
+          </p>
+
+          <!-- Progression -->
+          <div class="mb-4">
+            <div class="flex justify-between text-xs text-gray-500 mb-1">
+              <span>Avancement</span>
+              <span>65%</span>
+            </div>
+            <div class="progress-container" style="margin-bottom: 0;">
+              <div class="progress-bar" style="width: 65%;"></div>
+            </div>
+          </div>
+
+          <!-- Détails -->
+          <div class="text-xs text-gray-500 space-y-1 mb-4">
+            <p><strong>Échéance :</strong> 15 avril 2025</p>
+            <p><strong>Budget :</strong> 8 200 €</p>
+            <p><strong>Gestionnaire :</strong> Sophie – Architecte</p>
+          </div>
+
+          <!-- Actions -->
+          <div class="flex gap-2">
+            <button class="btn flex-1" onclick="openProjectDetails('projet-1')">Voir le projet</button>
+            <button class="btn btn-outline" style="padding: 10px;" title="Télécharger les fichiers">
+              <i data-lucide="folder" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Projet 2 : Terminé -->
+      <div class="project-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+        <div style="height: 8px; background: #10b981;"></div>
+        <div class="p-6">
+          <div class="flex justify-between items-start mb-3">
+            <h3 class="text-lg font-semibold">Rénovation SDB & Cuisine</h3>
+            <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">Terminé</span>
+          </div>
+          <p class="text-sm text-gray-600 mb-4">
+            Intérieur • 45 m² • Livré en janvier 2025
+          </p>
+
+          <div class="mb-4">
+            <div class="flex justify-between text-xs text-gray-500 mb-1">
+              <span>État</span>
+              <span>100%</span>
+            </div>
+            <div class="progress-container" style="margin-bottom: 0;">
+              <div class="progress-bar" style="width: 100%;"></div>
+            </div>
+          </div>
+
+          <div class="text-xs text-gray-500 space-y-1 mb-4">
+            <p><strong>Date de livraison :</strong> 05/01/2025</p>
+            <p><strong>Budget :</strong> 4 500 €</p>
+            <p><strong>Facture :</strong> FAC-2025-003</p>
+          </div>
+
+          <div class="flex gap-2">
+            <button class="btn flex-1" onclick="openProjectDetails('projet-2')">Voir les détails</button>
+            <button class="btn btn-outline" style="padding: 10px;">
+              <i data-lucide="eye" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Message si pas de projet -->
+    <div id="no-projects" class="card text-center py-10" style="display: none;">
+      <i data-lucide="folder" class="w-12 h-12 text-gray-300 mx-auto mb-4"></i>
+      <h3 class="text-lg font-medium text-gray-500">Aucun projet en cours</h3>
+      <p class="text-gray-400 mt-2">Lancez votre premier projet depuis l’onglet "Nouveau Projet".</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- === MODAL DÉTAIL PROJET === -->
+<div id="project-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-white rounded-xl shadow-xl w-full max-w-4xl max-h-screen overflow-y-auto">
+    <div class="p-6">
+      <div class="flex justify-between items-start mb-4">
+        <h2 class="text-2xl font-bold" id="modal-project-title">Détail du projet</h2>
+        <button onclick="closeProjectDetails()" class="text-gray-500 hover:text-gray-700">×</button>
+      </div>
+
+      <!-- Informations générales -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div>
+          <strong>Type de bien :</strong> Maison individuelle
+        </div>
+        <div>
+          <strong>Surface :</strong> 220 m²
+        </div>
+        <div>
+          <strong>Échéance :</strong> 15 avril 2025
+        </div>
+        <div>
+          <strong>Budget :</strong> 8 200 €
+        </div>
+        <div>
+          <strong>Gestionnaire :</strong> Sophie – Architecte
+        </div>
+        <div>
+          <strong>Statut :</strong> <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded">En cours</span>
+        </div>
+      </div>
+
+      <!-- Devis & Factures -->
+      <div class="mb-6">
+        <h3 class="text-lg font-semibold mb-3">📄 Devis & Factures</h3>
+        <table class="w-full text-sm">
+          <tr>
+            <th class="text-left">Document</th>
+            <th>Date</th>
+            <th>Montant</th>
+            <th>Statut</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>Devis PROJ-2025-001</td>
+            <td>01/02/2025</td>
+            <td>8 200 €</td>
+            <td><span class="status paid">Signé</span></td>
+            <td><a class="action-link">Télécharger</a></td>
+          </tr>
+          <tr>
+            <td>Facture FAC-2025-001</td>
+            <td>15/02/2025</td>
+            <td>4 100 €</td>
+            <td><span class="status paid">Payé</span></td>
+            <td><a class="action-link">Télécharger</a></td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Formulaire onboarding -->
+      <div class="mb-6">
+        <h3 class="text-lg font-semibold mb-3">📋 Formulaire Onboarding</h3>
+        <p><strong>Type de projet :</strong> Extension</p>
+        <p><strong>Description :</strong> Ajout d'une pièce de vie et d'une terrasse.</p>
+        <p><strong>Localisation :</strong> Lyon, France</p>
+      </div>
+
+      <!-- Avancement -->
+      <div class="mb-6">
+        <h3 class="text-lg font-semibold mb-3">📅 Avancement</h3>
+        <div class="flex justify-between text-xs text-gray-500 mb-1">
+          <span>65% complété</span>
+        </div>
+        <div class="progress-container">
+          <div class="progress-bar" style="width: 65%;"></div>
+        </div>
+      </div>
+
+      <!-- Fichiers -->
+      <div class="mb-6">
+        <h3 class="text-lg font-semibold mb-3">📁 Fichiers</h3>
+        <ul class="space-y-2">
+          <li class="flex justify-between"><span>Plan_2D_v3.pdf</span> <a class="action-link">Télécharger</a></li>
+          <li class="flex justify-between"><span>Rendu_3D_v2.mp4</span> <a class="action-link">Télécharger</a></li>
+        </ul>
+      </div>
+
+      <div class="flex justify-end">
+        <button class="btn" onclick="closeProjectDetails()">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- === MESSAGERIE === -->
+    <section id="messagerie" class="section">
+      <h1>Messagerie</h1>
+      <div class="card">
+        <div class="chat-container">
+          <div class="chat-bubble bubble-team">
+            Bonjour ! Vos plans ont bien été reçus. Nous commençons la modélisation 3D.
+          </div>
+          <div class="chat-bubble bubble-client">
+            Parfait, merci ! J'attends le devis pour validation.
+          </div>
+        </div>
+        <div class="chat-footer">
+          <input type="text" class="chat-input" placeholder="Écrivez votre message..." />
+          <button class="btn">Envoyer</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- === FICHIERS === -->
+    <section id="fichiers" class="section">
+      <h1>Gestion des Fichiers</h1>
+      <p>Fichiers du projet "Résidence Familiale 2025"</p>
+      <ul class="file-list">
+        <li class="file-item">
+          <div class="file-name">
+            <i data-lucide="file"></i> Plan_2D_v3.pdf
+          </div>
+          <div class="file-actions">
+            <button>Télécharger</button>
+          </div>
+        </li>
+        <li class="file-item">
+          <div class="file-name">
+            <i data-lucide="image"></i> 3D_Render_v1.mp4
+          </div>
+          <div class="file-actions">
+            <button>Télécharger</button>
+          </div>
+        </li>
+      </ul>
+      <input type="file" style="margin: 16px 0;" />
+      <button class="btn">Uploader</button>
+    </section>
+
+    <!-- === FACTURES === -->
+    <section id="factures" class="section">
+      <h1>Factures & Paiements</h1>
+      <table>
+        <tr>
+          <th>Facture</th>
+          <th>Date</th>
+          <th>Montant</th>
+          <th>Statut</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <td>FAC-2025-001</td>
+          <td>01/02/2025</td>
+          <td>2 700 €</td>
+          <td><span class="status paid">Payé</span></td>
+          <td><a class="action-link">Télécharger</a></td>
+        </tr>
+        <tr>
+          <td>FAC-2025-002</td>
+          <td>15/03/2025</td>
+          <td>2 500 €</td>
+          <td><span class="status pending">En attente</span></td>
+          <td><a class="action-link">Télécharger</a></td>
+        </tr>
+      </table>
+    </section>
+
+    <!-- === SUPPORT === -->
+    <section id="support" class="section">
+      <h1>Support Client</h1>
+      <div class="card">
+        <p><strong>Agence Architecture & Design</strong></p>
+        <p>📞 07 82 98 62 21</p>
+        <p>✉️ contact@agencearchi.fr</p>
+        <p>📍 Paris, France</p>
+        <p>🕒 Lun-Ven 9h-18h</p>
+      </div>
+      <form class="card">
+        <div class="form-group">
+          <label>Votre nom</label>
+          <input type="text" required />
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" required />
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea rows="5" placeholder="Comment pouvons-nous vous aider ?" required></textarea>
+        </div>
+        <button type="submit" class="btn">Envoyer</button>
+      </form>
+    </section>
+
+  </main>
+
+  <script>
+
+  // Navigation entre étapes
+  function goToStep(step) {
+    document.querySelectorAll('.step-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    document.querySelector(`[data-step="${step}"]`).classList.add('active');
+
+    document.querySelectorAll('.step-content').forEach(content => {
+      content.style.display = 'none';
+    });
+    document.getElementById('step-' + step).style.display = 'block';
+  }
+
+  // Générer le devis
+  function generateQuote() {
+    const amount = Math.floor(Math.random() * 2000 + 8000).toLocaleString('fr-FR') + ' €';
+    document.getElementById('quote-amount').textContent = amount;
+    document.getElementById('payment-amount').textContent = amount;
+  }
+
+  // Signature électronique
+  const canvas = document.getElementById('signature-canvas');
+  const ctx = canvas.getContext('2d');
+  const signaturePad = document.getElementById('signature-pad');
+  const signatureText = document.getElementById('signature-text');
+
+  let isDrawing = false;
+
+  signaturePad.addEventListener('click', () => {
+    canvas.style.display = 'block';
+    signatureText.style.display = 'none';
+    canvas.width = signaturePad.offsetWidth;
+    canvas.height = signaturePad.offsetHeight;
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#3551DB';
+    ctx.lineCap = 'round';
+    isDrawing = true;
+  });
+
+  ['mousedown', 'touchstart'].forEach(event => {
+    canvas.addEventListener(event, () => isDrawing = true);
+  });
+
+  ['mouseup', 'touchend', 'mouseleave'].forEach(event => {
+    canvas.addEventListener(event, () => isDrawing = false);
+  });
+
+  canvas.addEventListener('mousemove', draw);
+  canvas.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    const rect = canvas.getBoundingClientRect();
+    const touch = e.touches[0];
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+    if (!isDrawing) return;
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+  });
+
+  function draw(e) {
+    if (!isDrawing) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+  }
+
+  function clearSignature() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.style.display = 'none';
+    signatureText.style.display = 'block';
+  }
+
+  // Confirmer le projet
+  function confirmProject() {
+    if (signatureText.style.display !== 'none') {
+      alert("Veuillez signer électroniquement avant de confirmer.");
+      return;
+    }
+    alert("✅ Projet confirmé ! Votre devis est signé et le paiement a été initié.");
+    document.getElementById('nouveau-projet').style.display = 'none';
+    document.getElementById('confirmation-message').style.display = 'block';
+    switchSection('mes-projets');
+  }
+
+    // Ouvrir/fermer sidebar mobile
+    const mobileToggle = document.getElementById('mobile-menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+
+    mobileToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+    });
+
+    // Navigation entre sections
+    function switchSection(sectionId) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById(sectionId).classList.add('active');
+      document.querySelectorAll('.sidebar-menu li').forEach(li => li.classList.remove('active'));
+      document.querySelector(`[data-section="${sectionId}"]`).classList.add('active');
+      if (window.innerWidth <= 1024) {
+        sidebar.classList.remove('open');
+      }
+    }
+
+    document.querySelectorAll('.sidebar-menu li').forEach(li => {
+      li.addEventListener('click', function() {
+        const section = this.getAttribute('data-section');
+        switchSection(section);
+      });
+    });
+
+    // Générer devis
+    function generateQuote() {
+      document.getElementById('devis-result').style.display = 'block';
+    }
+
+    // Signature électronique
+    function signQuote() {
+      alert("✅ Signature électronique réussie ! Votre devis est validé.");
+    }
+
+    // Initialiser les icônes Lucide
+    lucide.createIcons();
+
+    // Animation barre de progression au chargement
+    document.addEventListener('DOMContentLoaded', () => {
+      const bar = document.querySelector('.progress-bar');
+      bar.style.width = '0%';
+      setTimeout(() => { bar.style.width = '65%'; }, 200);
+    });
+  </script>
+</body>
+</html>
